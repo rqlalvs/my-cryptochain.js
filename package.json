@@ -13,6 +13,9 @@
     "lint": "eslint src/** tests/**",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@rqlalvs"
+  },
   "author": "Raquel Alves <raquelalves3753@gmail.com>",
   "license": "MIT",
   "repository": {
