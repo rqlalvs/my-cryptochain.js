@@ -1,6 +1,41 @@
 {
+  "name": "raCHAIN",
+  "version": "1.0.1",
+  "description": "Cryptochain desenvolvida em JavaScript para merito de estudo.",
+  "keywords": [
+    "blockchain",
+    "transactions",
+    "study"
+  ],
+  "main": "src/blockchain.js",
+  "scripts": {
+    "test": "mocha tests/*.js",
+    "lint": "eslint src/** tests/**",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+  },
+  "author": "Raquel Alves <raquelalves3753@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rqlalvs/my-cryptochain.js"
+  },
+  "bugs": {
+    "url": "https://github.com/rqlalvs/my-cryptochain.js/issues"
+  },
+  "homepage": "https://github.com/rqlalvs/my-cryptochain.js",
   "dependencies": {
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.3",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^5.2.0",
+    "nyc": "^14.0.0"
   }
 }
