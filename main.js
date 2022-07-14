@@ -1,11 +1,21 @@
 const SHA256 = require("crypto-js/sha256");
 
+//#region transaction 
+class Transaction{
+    constructor(fromAddress, toAddress, amount){
+        this.fromAddress = fromAddress;
+        this.toAddress = toAddress;
+        this.amount = amount;
+    }
+}
+
+//#endregion
+
 //#region block
 class Block {
-  constructor(index, timestamp, data, previousHash = "") {
-    this.index = index;
+  constructor(timestamp, transactions, previousHash = "") {
     this.timestamp = timestamp;
-    this.data = data;
+    this.transactions = transactions;
     this.previousHash = previousHash;
     this.hash = this.calculateHash();
     this.nonce = 0;
@@ -13,10 +23,9 @@ class Block {
 
   calculateHash() {
     return SHA256(
-      this.index +
-        this.previousHash +
+      this.previousHash +
         this.timestamp +
-        JSON.stringify(this.data) +
+        JSON.stringify(this.transactions) +
         this.nonce
     ).toString();
   }
@@ -39,20 +48,50 @@ class BlockChain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
     this.difficulty = 2;
+    this.pendingTransactions = [];
+    this.miningRewards = 100;
   }
 
   createGenesisBlock() {
-    return new Block(0, "22/02/2022", "Genesis Block", "0");
+    return new Block("22/02/2022", "Genesis Block", "0");
   }
 
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
 
-  addBlock(newBlock) {
-    newBlock.previousHash = this.getLatestBlock().hash;
-    newBlock.mineBlock(this.difficulty);
-    this.chain.push(newBlock);
+  minePendingTransactions(miningRewardAdress){
+    let block = new Block(Date.now(), this.pendingTransactions);
+    block.mineBlock(this.difficulty);
+
+    console.log('Block successfully mined.');
+    this.chain.push(block);
+
+    this.pendingTransactions = [
+        new Transaction(null, miningRewardAdress, this.miningRewards)
+    ]
+  }
+
+  createTransaction(transaction){
+    this.pendingTransactions.push(transaction);
+  }
+
+  getBalanceOfAddress(address){
+    let balance = 0;
+
+    for(const block of this.chain){
+        //because each block has many transactions
+        for(const trans of block.transactions){
+            if(trans.fromAddress === address){
+                balance -= trans.amount;
+            }
+
+            if(trans.toAddress === address){
+                balance += trans.amount;
+            }
+        }
+    }
+    return balance;
   }
 
   isChainValid() {
@@ -75,16 +114,19 @@ class BlockChain {
 
 let RaCHAIN = new BlockChain();
 
-//Creating Blocks
-console.log("Mining block 1......");
-RaCHAIN.addBlock(new Block(1, "13/07/2022", { amount: 2 }));
-console.log("Mining block 2......");
-RaCHAIN.addBlock(new Block(2, "12/07/2022", { amount: 5 }));
 
-//console.log(JSON.stringify(RaCHAIN, null, 4));
+//test transactions
 
-//Messing with the chain for testing purposes
-//console.log("Is blockchain valid: " + RaCHAIN.isChainValid());
-//RaCHAIN.chain[1].data = { amount: 100 };
-//RaCHAIN.chain[1].hash = RaCHAIN.chain[1].calculateHash();
-//console.log("Is blockchain valid: " + RaCHAIN.isChainValid());
+RaCHAIN.createTransaction(new Transaction('Raquel', 'Leuqar', 100));
+RaCHAIN.createTransaction(new Transaction('Leuqar', 'Raquel', 50));
+
+console.log('\n Starting the miner...');
+RaCHAIN.minePendingTransactions('rach-address');
+//The first balance will be 0 because the transaction is on PendingTransactions
+console.log("\n Rach's balance is", RaCHAIN.getBalanceOfAddress('rach-address'));
+
+//Now here, when we mine for the second time, should appear the balance of the first one. Works like this don't matter how many times you mine a block.
+console.log('\n Starting the miner for the second time...');
+RaCHAIN.minePendingTransactions('rach-address');
+
+console.log("\n Rach's balance is", RaCHAIN.getBalanceOfAddress('rach-address'));
