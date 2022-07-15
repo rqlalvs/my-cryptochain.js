@@ -1,6 +1,6 @@
 {
   "name": "my-cryptochain.js",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Cryptochain desenvolvida em JavaScript para merito de estudo.",
   "keywords": [
     "blockchain",
@@ -41,6 +41,7 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
     "mocha": "^5.2.0",
-    "nyc": "^14.0.0"
+    "nyc": "^14.0.0",
+    "typescript": "^4.7.4"
   }
 }
