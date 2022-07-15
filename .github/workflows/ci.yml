@@ -1,28 +1,21 @@
+name: Node.js Package
+
 on:
-  pull_request:
   push:
+    branches:
+          - main
+
 jobs:
-  build-test:
-    name: Build & Test
+  publish-gpr:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run coverage
-        run: npm run coverage
-
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
+      - uses: actions/setup-node@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-  
-  eslint:
-    name: ESLint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: npm ci
-      - run: npm run lint
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@rqlalvs'
+      - run: npm install
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
