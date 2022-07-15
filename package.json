@@ -1,6 +1,6 @@
 {
   "name": "my-cryptochain.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Cryptochain desenvolvida em JavaScript para merito de estudo.",
   "keywords": [
     "blockchain",
@@ -8,8 +8,8 @@
     "study"
   ],
   "main": "src/blockchain.js",
-  "typings": "src/blockchain.js",
-  "types": "src/blockchain.js",
+  "typings": "src/blockchain.d.ts",
+  "types": "src/blockchain.d.ts",
   "scripts": {
     "test": "mocha tests/*.js",
     "lint": "eslint src/** tests/**",
