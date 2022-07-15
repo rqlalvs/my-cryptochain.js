@@ -10,11 +10,6 @@
   "main": "src/blockchain.js",
   "typings": "src/blockchain.d.ts",
   "types": "src/blockchain.d.ts",
-  "scripts": {
-    "test": "mocha tests/*.js",
-    "lint": "eslint src/** tests/**",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
-  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@rqlalvs"
   },
