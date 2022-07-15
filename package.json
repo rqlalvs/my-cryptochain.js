@@ -8,6 +8,7 @@
     "study"
   ],
   "main": "src/blockchain.js",
+  "typings": "src/blockchain.js",
   "scripts": {
     "test": "mocha tests/*.js",
     "lint": "eslint src/** tests/**",
